@@ -1,0 +1,31 @@
+type Post {
+  id: ID!
+  text: String!
+  authorID: ID!
+  commentsClosed: Boolean!
+}
+
+type Comment {
+  id: ID!
+  postID: ID!
+  parentID: ID
+  text: String!
+}
+
+type CommentPage {
+  items: [Comment!]!
+  hasMore: Boolean!
+  endCursor: ID
+}
+
+type Query {
+  posts: [Post!]!
+  post(id: ID!): Post
+  comments(postID: ID!, parentID: ID, first: Int! = 20, after: ID): CommentPage!
+}
+
+type Mutation {
+  createPost(text: String!): Post!
+  createComment(postID: ID!, parentID: ID, text: String!): Comment!
+  closeComments(postID: ID!): Boolean!
+}
